@@ -1,0 +1,68 @@
+# Firewall Configuration Commands (Windows)
+
+This file documents the exact steps and commands used to complete Task 4 on Windows Firewall and PowerShell.
+
+---
+
+## 1. Open Windows Firewall (GUI)
+- Press **Win + R**, type: wf.msc , then press **Enter**.
+
+---
+
+## 2. Create Rule to Block Port 23 (Telnet)
+**Using GUI:**
+1. Go to **Inbound Rules**.
+2. Click **New Rule...** (on right side).
+3. Select **Port** → **Next**.
+4. Choose **TCP** and type port: 23 → **Next**.
+5. Select **Block the connection** → **Next**.
+6. Keep all profiles (Domain, Private, Public) checked → **Next**.
+7. Name the rule: `Block Telnet (port 23)` → Finish.
+
+---
+
+## 3. Test Rule in PowerShell
+Open **PowerShell (Admin)** and run:
+
+    Test-NetConnection -ComputerName localhost -Port 23
+
+- Expected result when blocked:  
+  `TcpTestSucceeded : False`
+
+---
+
+## 4. (Optional) Test with Telnet Client
+Enable Telnet client first (if not installed):
+
+    dism /online /Enable-Feature /FeatureName:TelnetClient
+
+Then test:
+
+    telnet localhost 23
+
+- Expected result: Connection failed.
+
+---
+
+## 5. Allow Port 22 (SSH) (Optional)
+If SSH is needed, run in Command Prompt (Admin):
+
+    netsh advfirewall firewall add rule name="Allow SSH (port 22)" dir=in action=allow protocol=TCP localport=22
+
+---
+
+## 6. Remove/Delete the Block Rule
+### GUI Method:
+- Go to **Inbound Rules**, right-click `Block Telnet (port 23)` → Delete.
+
+### Command Line Method:
+
+    netsh advfirewall firewall delete rule name="Block Telnet (port 23)" protocol=TCP localport=23 dir=in
+
+---
+
+## Summary
+- Blocked port 23 using Windows Firewall GUI.
+- Verified block using PowerShell (`Test-NetConnection`).
+- Optional testing done using Telnet client.
+- Rule later removed to restore original firewall state.
