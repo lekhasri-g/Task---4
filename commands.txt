@@ -1,0 +1,28 @@
+Firewall Configuration Commands (Windows)
+
+Check Firewall Rules
+
+netsh advfirewall firewall show rule name=all
+
+Add Rule to Block Port 23 (Telnet)
+
+netsh advfirewall firewall add rule name=“Block Telnet (port 23)” dir=in
+action=block protocol=TCP localport=23
+
+Test Connection on Port 23 (PowerShell)
+
+Test-NetConnection -ComputerName localhost -Port 23
+
+Optional: Using Telnet (if Telnet client is installed)
+
+telnet localhost 23
+
+Allow SSH (Port 22) if needed
+
+netsh advfirewall firewall add rule name=“Allow SSH (port 22)” dir=in
+action=allow protocol=TCP localport=22
+
+Delete the Block Rule for Port 23
+
+netsh advfirewall firewall delete rule name=“Block Telnet (port 23)”
+protocol=TCP localport=23 dir=in
