@@ -2,4 +2,5 @@
 # Setup and use a firewall on Windows/Linux 
 # Name: Lekha Sri G 
 # Date: 26/9/2025
+# Contents: Screenshots, commands.txt, readme.txt, Firewall Configuration Commands (Windows)
 
